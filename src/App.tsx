@@ -292,12 +292,6 @@ export default function App() {
             </a>
           </div>
 
-          <div className="font-mono text-[8px] text-zinc-600 opacity-70 space-y-2">
-            <p>
-              <a href="https://kapital-cap.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Kapital Cap</a> by <a href="https://github.com/Hoyuse/kapital-cap" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">Dina Elles</a> is marked <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">CC0 1.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" className="inline" style={{maxWidth: '1em', maxHeight: '1em', marginLeft: '0.2em'}} /><img src="https://mirrors.creativecommons.org/presskit/icons/zero.svg" alt="" className="inline" style={{maxWidth: '1em', maxHeight: '1em', marginLeft: '0.2em'}} />
-            </p>
-            <p>© {new Date().getFullYear()} KAPITAL // CAP. ALL RIGHTS RESERVED.</p>
-          </div>
         </div>
       </footer>
     </div>

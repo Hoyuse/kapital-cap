@@ -1,4 +1,5 @@
-import { ShoppingBag, User, Cpu, FileText, Sparkles, Layers, Compass } from 'lucide-react';
+import { useState } from 'react';
+import { ShoppingBag, User, Cpu, FileText, Sparkles, Layers, Compass, Menu, X } from 'lucide-react';
 
 interface TopNavBarProps {
   currentTab: string;
@@ -13,10 +14,30 @@ export default function TopNavBar({
   cartCount,
   onOpenCart,
 }: TopNavBarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleSelectTab = (tab: string) => {
+    setCurrentTab(tab);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleOpenCart = () => {
+    setIsMobileMenuOpen(false);
+    onOpenCart();
+  };
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-zinc-900 flex justify-between items-center px-6 md:px-12 py-5 transition-all duration-300">
+    <>
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/70 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      <nav className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-zinc-900 flex justify-between items-center px-6 md:px-12 py-5 transition-all duration-300 relative">
       <div 
-        onClick={() => setCurrentTab('COLLECTIONS')}
+        onClick={() => handleSelectTab('COLLECTIONS')}
         id="nav-logo"
         className="font-sans text-lg md:text-xl font-extralight tracking-[0.25em] text-white cursor-pointer hover:text-cyan-400 transition-colors duration-300 select-none flex items-center gap-2"
       >
@@ -25,7 +46,7 @@ export default function TopNavBar({
 
       <div className="hidden md:flex items-center gap-8 lg:gap-12">
         <button
-          onClick={() => setCurrentTab('COLLECTIONS')}
+          onClick={() => handleSelectTab('COLLECTIONS')}
           className={`font-sans text-xs tracking-[0.2em] font-medium transition-all duration-300 pb-1 cursor-pointer flex items-center gap-1.5 ${
             currentTab === 'COLLECTIONS' 
               ? 'text-white border-b border-cyan-400' 
@@ -36,7 +57,7 @@ export default function TopNavBar({
           COLLECTIONS
         </button>
         <button
-          onClick={() => setCurrentTab('ARCHIVE')}
+          onClick={() => handleSelectTab('ARCHIVE')}
           className={`font-sans text-xs tracking-[0.2em] font-medium transition-all duration-300 pb-1 cursor-pointer flex items-center gap-1.5 ${
             currentTab === 'ARCHIVE' 
               ? 'text-white border-b border-cyan-400' 
@@ -47,7 +68,7 @@ export default function TopNavBar({
           ARCHIVE
         </button>
         <button
-          onClick={() => setCurrentTab('VISION_MISION')}
+          onClick={() => handleSelectTab('VISION_MISION')}
           className={`font-sans text-xs tracking-[0.2em] font-medium transition-all duration-300 pb-1 cursor-pointer flex items-center gap-1.5 ${
             currentTab === 'VISION_MISION' 
               ? 'text-white border-b border-cyan-400' 
@@ -58,7 +79,7 @@ export default function TopNavBar({
           VISIÓN & MISIÓN
         </button>
         <button
-          onClick={() => setCurrentTab('EDITORIAL')}
+          onClick={() => handleSelectTab('EDITORIAL')}
           className={`font-sans text-xs tracking-[0.2em] font-medium transition-all duration-300 pb-1 cursor-pointer flex items-center gap-1.5 ${
             currentTab === 'EDITORIAL' 
               ? 'text-white border-b border-cyan-400' 
@@ -69,7 +90,7 @@ export default function TopNavBar({
           EDITORIAL
         </button>
         <button
-          onClick={() => setCurrentTab('LAB')}
+          onClick={() => handleSelectTab('LAB')}
           className={`font-sans text-xs tracking-[0.2em] font-medium transition-all duration-300 pb-1 cursor-pointer flex items-center gap-1.5 ${
             currentTab === 'LAB' 
               ? 'text-white border-b border-cyan-400' 
@@ -82,8 +103,21 @@ export default function TopNavBar({
       </div>
 
       <div className="flex items-center gap-4 md:gap-7">
+        <button
+          onClick={() => setIsMobileMenuOpen((v) => !v)}
+          className="p-2 text-zinc-400 hover:text-cyan-400 transition-colors duration-300 cursor-pointer flex items-center md:hidden"
+          aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-nav-menu"
+        >
+          {isMobileMenuOpen ? (
+            <X className="w-5 h-5 stroke-[1.2]" />
+          ) : (
+            <Menu className="w-5 h-5 stroke-[1.2]" />
+          )}
+        </button>
         <button 
-          onClick={onOpenCart}
+          onClick={handleOpenCart}
           className="relative p-2 text-zinc-400 hover:text-cyan-400 transition-colors duration-300 cursor-pointer flex items-center"
         >
           <ShoppingBag className="w-5 h-5 stroke-[1.2]" />
@@ -100,6 +134,63 @@ export default function TopNavBar({
           <User className="w-5 h-5 stroke-[1.2]" />
         </button>
       </div>
+
+      {isMobileMenuOpen && (
+        <div
+          id="mobile-nav-menu"
+          className="absolute top-full left-0 w-full md:hidden bg-black/95 backdrop-blur-xl border-b border-zinc-900 z-50"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="px-6 py-5 flex flex-col gap-1">
+            <button
+              onClick={() => handleSelectTab('COLLECTIONS')}
+              className={`w-full text-left font-sans text-xs tracking-[0.22em] font-medium transition-colors duration-300 py-3 flex items-center gap-2 ${
+                currentTab === 'COLLECTIONS' ? 'text-white' : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <Layers className="w-4 h-4" />
+              COLLECTIONS
+            </button>
+            <button
+              onClick={() => handleSelectTab('ARCHIVE')}
+              className={`w-full text-left font-sans text-xs tracking-[0.22em] font-medium transition-colors duration-300 py-3 flex items-center gap-2 ${
+                currentTab === 'ARCHIVE' ? 'text-white' : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <Sparkles className="w-4 h-4" />
+              ARCHIVE
+            </button>
+            <button
+              onClick={() => handleSelectTab('VISION_MISION')}
+              className={`w-full text-left font-sans text-xs tracking-[0.22em] font-medium transition-colors duration-300 py-3 flex items-center gap-2 ${
+                currentTab === 'VISION_MISION' ? 'text-white' : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <Compass className="w-4 h-4 text-cyan-400" />
+              VISIÓN & MISIÓN
+            </button>
+            <button
+              onClick={() => handleSelectTab('EDITORIAL')}
+              className={`w-full text-left font-sans text-xs tracking-[0.22em] font-medium transition-colors duration-300 py-3 flex items-center gap-2 ${
+                currentTab === 'EDITORIAL' ? 'text-white' : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              EDITORIAL
+            </button>
+            <button
+              onClick={() => handleSelectTab('LAB')}
+              className={`w-full text-left font-sans text-xs tracking-[0.22em] font-medium transition-colors duration-300 py-3 flex items-center gap-2 ${
+                currentTab === 'LAB' ? 'text-white' : 'text-zinc-500 hover:text-white'
+              }`}
+            >
+              <Cpu className="w-4 h-4 text-violet-400" />
+              LAB STUDIO
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
+    </>
   );
 }
