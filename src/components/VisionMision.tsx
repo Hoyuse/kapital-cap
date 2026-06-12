@@ -509,9 +509,9 @@ export default function VisionMision() {
                     {/* QR Code Image - Using external API */}
                     <div className="flex justify-center p-4 bg-white">
                       <img 
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://www.youtube.com/watch?v=example-kapital-vision-mision"
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://kapital-cap.vercel.app/"
                         alt="Código QR - Video Visión y Misión"
-                        className="w-64 h-64"
+                        className="w-72 h-72"
                       />
                     </div>
 
@@ -521,7 +521,7 @@ export default function VisionMision() {
                         Escanea para ver la presentación completa de Visión & Misión
                       </p>
                       <p className="font-sans text-[10px] text-zinc-500">
-                        URL: https://www.youtube.com/watch?v=example-kapital-vision-mision
+                        URL: https://kapital-cap.vercel.app/
                       </p>
                     </div>
 
@@ -538,7 +538,7 @@ export default function VisionMision() {
                       </button>
                       <button
                         onClick={() => {
-                          const link = "https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://www.youtube.com/watch?v=example-kapital-vision-mision";
+                          const link = "https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://kapital-cap.vercel.app/";
                           const a = document.createElement('a');
                           a.href = link;
                           a.download = 'kapital-vision-mision-qr.png';
@@ -606,38 +606,35 @@ export default function VisionMision() {
 
             </div>
 
-            {/* Bottom-right audio/interactive indicator prompting first use of atmospheric sound */}
-            {isMuted && (
-              <div className="absolute bottom-4 right-4 z-20">
+            {/* Bottom buttons - Audio and QR */}
+            <div className="absolute bottom-4 left-0 right-0 z-50 flex justify-between px-4 pointer-events-none">
+              {/* QR Code Button */}
+              <button
+                onClick={() => {
+                  setShowQRCode(true);
+                  playSynthChime(550, 'sine', 0.2);
+                }}
+                className="flex items-center gap-2 bg-purple-950/80 border border-purple-400/40 text-purple-400 hover:bg-purple-900 py-1.5 px-3 font-mono text-[8.5px] tracking-widest uppercase cursor-pointer transition-all duration-300 hover:scale-105 pointer-events-auto"
+                title="Ver código QR del video"
+              >
+                <Sparkles className="w-3 h-3 text-purple-400" />
+                Código QR
+              </button>
+
+              {/* Audio Button */}
+              {isMuted && (
                 <button
                   onClick={() => {
                     setIsMuted(false);
                     playSynthChime(660, 'sine', 0.45);
                   }}
-                  className="flex items-center gap-2 bg-cyan-950/80 border border-cyan-400/40 text-cyan-400 hover:bg-cyan-905 py-1.5 px-3 font-mono text-[8.5px] tracking-widest uppercase cursor-pointer transition-all duration-300 animate-pulse hover:scale-105"
+                  className="flex items-center gap-2 bg-cyan-950/80 border border-cyan-400/40 text-cyan-400 hover:bg-cyan-900 py-1.5 px-3 font-mono text-[8.5px] tracking-widest uppercase cursor-pointer transition-all duration-300 animate-pulse hover:scale-105 pointer-events-auto"
                 >
                   <Volume2 className="w-3 h-3 text-cyan-400" />
-                  Activar Audio Atmosférico
+                  Activar Audio
                 </button>
-              </div>
-            )}
-
-            {/* QR Code Button */}
-            {!showQRCode && (
-              <div className="absolute bottom-4 left-4 z-20">
-                <button
-                  onClick={() => {
-                    setShowQRCode(true);
-                    playSynthChime(550, 'sine', 0.2);
-                  }}
-                  className="flex items-center gap-2 bg-purple-950/80 border border-purple-400/40 text-purple-400 hover:bg-purple-905 py-1.5 px-3 font-mono text-[8.5px] tracking-widest uppercase cursor-pointer transition-all duration-300 hover:scale-105"
-                  title="Ver código QR del video"
-                >
-                  <Sparkles className="w-3 h-3 text-purple-400" />
-                  Código QR
-                </button>
-              </div>
-            )}
+              )}
+            </div>
 
           </div>
 
