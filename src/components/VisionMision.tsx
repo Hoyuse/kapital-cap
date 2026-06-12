@@ -48,6 +48,7 @@ const VIDEO_SLIDES = [
 export default function VisionMision() {
   const [activeSegment, setActiveSegment] = useState<'METRICS' | 'PILLARS' | 'MANI'>('METRICS');
   const [hoveredCard, setHoveredCard] = useState<'MISIÓN' | 'VISIÓN' | null>(null);
+  const [showQRCode, setShowQRCode] = useState<boolean>(false);
 
   // Simulated Video Player States
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -469,6 +470,91 @@ export default function VisionMision() {
             {/* Simulated glitch overlay */}
             <div className="absolute inset-0 bg-zinc-950/20 mix-blend-overlay pointer-events-none opacity-40 select-none z-1" />
 
+            {/* QR Code Modal Overlay */}
+            <AnimatePresence>
+              {showQRCode && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0 flex items-center justify-center z-30"
+                >
+                  {/* Modal backdrop */}
+                  <div 
+                    className="absolute inset-0 bg-black/70 cursor-pointer"
+                    onClick={() => {
+                      setShowQRCode(false);
+                      playSynthChime(330, 'sine', 0.15);
+                    }}
+                  />
+                  
+                  {/* QR Content Card */}
+                  <div className="relative bg-black border-2 border-purple-400 p-6 md:p-8 space-y-4 max-w-sm mx-auto shadow-[0_0_40px_rgba(168,85,247,0.3)]">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-mono text-[12px] text-purple-400 uppercase tracking-widest">
+                        CÓDIGO QR // PRESENTACIÓN
+                      </h3>
+                      <button
+                        onClick={() => {
+                          setShowQRCode(false);
+                          playSynthChime(330, 'sine', 0.15);
+                        }}
+                        className="text-zinc-500 hover:text-white text-lg font-bold cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* QR Code Image - Using external API */}
+                    <div className="flex justify-center p-4 bg-white">
+                      <img 
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://www.youtube.com/watch?v=example-kapital-vision-mision"
+                        alt="Código QR - Video Visión y Misión"
+                        className="w-64 h-64"
+                      />
+                    </div>
+
+                    {/* Info Text */}
+                    <div className="space-y-2">
+                      <p className="font-mono text-[9px] text-zinc-400 tracking-wider uppercase">
+                        Escanea para ver la presentación completa de Visión & Misión
+                      </p>
+                      <p className="font-sans text-[10px] text-zinc-500">
+                        URL: https://www.youtube.com/watch?v=example-kapital-vision-mision
+                      </p>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 pt-2">
+                      <button
+                        onClick={() => {
+                          setShowQRCode(false);
+                          playSynthChime(330, 'sine', 0.15);
+                        }}
+                        className="flex-1 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 py-2 font-mono text-[8px] uppercase tracking-widest cursor-pointer transition-colors"
+                      >
+                        Cerrar
+                      </button>
+                      <button
+                        onClick={() => {
+                          const link = "https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://www.youtube.com/watch?v=example-kapital-vision-mision";
+                          const a = document.createElement('a');
+                          a.href = link;
+                          a.download = 'kapital-vision-mision-qr.png';
+                          a.click();
+                          playSynthChime(660, 'sine', 0.1);
+                        }}
+                        className="flex-1 border border-purple-400 text-purple-400 hover:bg-purple-950/40 py-2 font-mono text-[8px] uppercase tracking-widest cursor-pointer transition-colors"
+                      >
+                        Descargar
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Cinematic Words and Letters Display Box */}
             <div className="relative z-10 text-center px-6 max-w-4xl space-y-4 select-none pointer-events-none">
               
@@ -532,6 +618,23 @@ export default function VisionMision() {
                 >
                   <Volume2 className="w-3 h-3 text-cyan-400" />
                   Activar Audio Atmosférico
+                </button>
+              </div>
+            )}
+
+            {/* QR Code Button */}
+            {!showQRCode && (
+              <div className="absolute bottom-4 left-4 z-20">
+                <button
+                  onClick={() => {
+                    setShowQRCode(true);
+                    playSynthChime(550, 'sine', 0.2);
+                  }}
+                  className="flex items-center gap-2 bg-purple-950/80 border border-purple-400/40 text-purple-400 hover:bg-purple-905 py-1.5 px-3 font-mono text-[8.5px] tracking-widest uppercase cursor-pointer transition-all duration-300 hover:scale-105"
+                  title="Ver código QR del video"
+                >
+                  <Sparkles className="w-3 h-3 text-purple-400" />
+                  Código QR
                 </button>
               </div>
             )}
