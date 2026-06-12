@@ -1,0 +1,6 @@
+{
+  "name": "KAPITAL // CAP",
+  "description": "Premium e-commerce showroom and technical design lab for avant-garde streetwear headwear, featuring the Cyber-Black series.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
